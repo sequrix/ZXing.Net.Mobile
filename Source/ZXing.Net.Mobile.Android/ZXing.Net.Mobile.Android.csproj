@@ -21,6 +21,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <DefineConstants>MONODROID;DEBUG</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -29,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <DefineConstants>MONODROID</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -53,6 +55,11 @@
     <Compile Include="ZXingScannerFragment.cs" />
     <Compile Include="ZXingSurfaceView.cs" />
     <Compile Include="Permissions.cs" />
+    <Compile Include="ZXingTextureView.cs" />
+    <Compile Include="CameraExtensions.cs" />
+    <Compile Include="FastJavaByteArray.cs" />
+    <Compile Include="FastJavaByteArrayEnumerator.cs" />
+    <Compile Include="FastJavaByteArrayYUVLuminanceSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
