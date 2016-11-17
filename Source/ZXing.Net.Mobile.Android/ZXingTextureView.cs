@@ -19,6 +19,8 @@ using ApxLabs.FastAndroidCamera;
 
 using Javax.Microedition.Khronos.Egl;
 
+using ZXing.Net.Mobile.Android;
+
 using Camera = Android.Hardware.Camera;
 using Matrix = Android.Graphics.Matrix;
 
@@ -286,7 +288,7 @@ namespace ZXing.Mobile
 				if (supportedFlashModes != null
 					&& (supportedFlashModes.Contains(Camera.Parameters.FlashModeTorch)
 					|| supportedFlashModes.Contains(Camera.Parameters.FlashModeOn)))
-					_hasTorch = CheckTorchPermissions(false);
+					_hasTorch = PermissionsHandler.CheckTorchPermissions(Context, false);
 
 				return _hasTorch.HasValue && _hasTorch.Value;
 			}
@@ -372,7 +374,7 @@ namespace ZXing.Mobile
 			if (_camera != null)
 				return;
 
-			CheckCameraPermissions();
+			PermissionsHandler.CheckCameraPermissions(Context);
 
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Gingerbread) // Choose among multiple cameras from Gingerbread forward
 			{
@@ -566,7 +568,7 @@ namespace ZXing.Mobile
 				return;
 			}
 
-			CheckTorchPermissions();
+			Net.Mobile.Android.PermissionsHandler.CheckTorchPermissions(Context);
 
 			_isTorchOn = on;
 			if (_camera != null) // already running
@@ -603,35 +605,6 @@ namespace ZXing.Mobile
 				p.FlashMode = flashMode;
 				_camera.SetParameters(p);
 			}
-		}
-
-		bool CheckCameraPermissions(bool throwOnError = true)
-		{
-			return CheckPermissions(Android.Manifest.Permission.Camera, throwOnError);
-		}
-
-		bool CheckTorchPermissions(bool throwOnError = true)
-		{
-			return CheckPermissions(Android.Manifest.Permission.Flashlight, throwOnError);
-		}
-
-		bool CheckPermissions(string permission, bool throwOnError = true)
-		{
-			Log.Debug(MobileBarcodeScanner.TAG, $"Checking {permission}...");
-
-			if (!PlatformChecks.IsPermissionInManifest(Context, permission)
-				|| !PlatformChecks.IsPermissionGranted(Context, permission))
-			{
-				var msg = $"Requires: {permission}, but was not found in your AndroidManifest.xml file.";
-				Log.Error(MobileBarcodeScanner.TAG, msg);
-
-				if (throwOnError)
-					throw new UnauthorizedAccessException(msg);
-
-				return false;
-			}
-
-			return true;
 		}
 
 		IBarcodeReaderGeneric<FastJavaByteArray> CreateBarcodeReader(MobileBarcodeScanningOptions options)
