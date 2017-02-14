@@ -14,6 +14,8 @@
     <AssemblyName>ZXingNetMobile</AssemblyName>
     <TargetFrameworkVersion>v4.1</TargetFrameworkVersion>
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v4.1</TargetFrameworkVersion>
+    <AndroidTlsProvider></AndroidTlsProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <Optimize>False</Optimize>
@@ -22,6 +24,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <DefineConstants>MONODROID;DEBUG</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -30,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <DefineConstants>MONODROID</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,6 +43,9 @@
     <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Android.Support.v4.23.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="FastAndroidCamera">
+      <HintPath>..\..\packages\FastAndroidCamera.2.0.0\lib\MonoAndroid403\FastAndroidCamera.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +64,9 @@
     <Compile Include="ZXingScannerFragment.cs" />
     <Compile Include="ZXingSurfaceView.cs" />
     <Compile Include="Permissions.cs" />
+    <Compile Include="ZXingTextureView.cs" />
+    <Compile Include="FastJavaByteArrayYUVLuminanceSource.cs" />
+    <Compile Include="FastJavaArrayEx.cs" />
     <Compile Include="PermissionsHandler.cs" />
   </ItemGroup>
   <ItemGroup>
