@@ -277,6 +277,7 @@ namespace ZXing.Mobile.CameraAccess
         private void AutoFocus(int x, int y, bool useCoordinates)
         {
             if (Camera == null) return;
+
             var cameraParams = Camera.GetParameters();
 
             Android.Util.Log.Debug(MobileBarcodeScanner.TAG, "AutoFocus Requested");
@@ -319,11 +320,38 @@ namespace ZXing.Mobile.CameraAccess
                 }
 
                 // Finally autofocus (weather we used focus areas or not)
-                Camera.AutoFocus(_cameraEventListener);
+                Camera.AutoFocus(new AutoFocusListener(this, cameraParams));
             }
             catch (Exception ex)
             {
                 Android.Util.Log.Debug(MobileBarcodeScanner.TAG, "AutoFocus Failed: {0}", ex);
+            }
+        }
+
+        class AutoFocusListener : Java.Lang.Object, Camera.IAutoFocusCallback
+        {
+            private readonly CameraController CameraController;
+            private readonly Camera.Parameters CameraParameters;
+
+            public AutoFocusListener(CameraController cc, Camera.Parameters cp)
+            {
+                CameraController = cc;
+                CameraParameters = cp;
+            }
+
+            public void OnAutoFocus(bool success, Camera camera)
+            {
+                CameraController._cameraEventListener.OnAutoFocus(success, camera);
+
+                // Retry auto focus
+                var focusMode = CameraParameters.FocusMode;
+                if (focusMode == Camera.Parameters.FocusModeAuto || focusMode == Camera.Parameters.FocusModeMacro)
+                {
+                    CameraController._surfaceView.PostDelayed(delegate
+                    {
+                        CameraController.AutoFocus(0,0, false);
+                    }, 2000);
+                }
             }
         }
 
