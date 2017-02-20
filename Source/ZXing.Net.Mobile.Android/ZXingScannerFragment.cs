@@ -23,7 +23,7 @@ namespace ZXing.Mobile
 
             try
             {
-                scanner = new ZXingSurfaceView (this.Activity, ScanningOptions);
+                scanner = new ZXingTextureView(this.Activity);
 
                 frame.AddView(scanner, layoutParams);
 
@@ -97,8 +97,8 @@ namespace ZXing.Mobile
 		public MobileBarcodeScanningOptions ScanningOptions { get;set; }
 		public string TopText { get;set; }
 		public string BottomText { get;set; }
-		
-		ZXingSurfaceView scanner;
+
+        ZXingTextureView scanner;
 		ZxingOverlayView zxingOverlay;
 
 		public void Torch(bool on)
