@@ -423,8 +423,11 @@ namespace ZXing.Mobile
 		public void OnAutoFocus(bool focus, Camera camera)
 		{
 			_autoFocusRunning = false;
-			if (!(focus || _useContinuousFocus))
-				AutoFocus();
+
+		    if (!(focus || _useContinuousFocus))
+		    {
+		        _handler.PostDelayed(AutoFocus, 1000);
+		    }
 		}
 
 
