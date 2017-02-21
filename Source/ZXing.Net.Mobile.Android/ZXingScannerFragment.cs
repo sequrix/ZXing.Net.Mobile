@@ -23,7 +23,8 @@ namespace ZXing.Mobile
 
             try
             {
-                scanner = new ZXingTextureView(this.Activity);
+                if(scanner == null)
+                    scanner = new ZXingTextureView(this.Activity);
 
                 frame.AddView(scanner, layoutParams);
 
@@ -45,8 +46,6 @@ namespace ZXing.Mobile
             {
                 Console.WriteLine ("Create Surface View Failed: " + ex);
             }
-
-            Android.Util.Log.Debug (MobileBarcodeScanner.TAG, "ZXingScannerFragment->OnResume exit");
 
 			return frame;
         }
@@ -73,8 +72,8 @@ namespace ZXing.Mobile
             if (scanner != null)
             {
                 scanner.StopScanning();
-
                 frame.RemoveView(scanner);
+                scanner = null;
             }
 
             if (!UseCustomOverlayView)
